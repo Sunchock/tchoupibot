@@ -2,18 +2,25 @@
 
 import discord
 from discord.ext import commands
+from components.laverieScraper import laverieScraper
 
 class TchoupiBot(commands.Bot):
 	def __init__(self):
 		default_intents = discord.Intents.default()
 		default_intents.members = True 
-		super().__init__(command_prefix="!tchoupi ", intents=default_intents)
+		super().__init__(command_prefix="!", intents=default_intents)
 
-		# @self.command(name='test')
-		# async def tchoupi_help(ctx):
-		# 	admin_chanel: discord.TextChannel = self.get_channel(705763034295173120)
-		# 	await admin_chanel.send(content="Liste des commandes :")
-		# 	await admin_chanel.send(content="Aucune ! Le bot est en travaux dsl")
+		@self.command(name='laverie')
+		async def laverie(ctx):
+			scraper = laverieScraper().getMachines()
+			content = "Machines de la laverie en direct:\n"
+			for machine in scraper:
+				content += f"{machine['type']} \tn° **{machine['id']}**,\tEtat: **{machine['state']}**"
+				if not machine['state']:
+					content += f", Disponible dès : {machine['end_time']}"
+				content += "\n"
+			print(scraper)
+			await ctx.send(content)
 		
 		@self.command(name="hello")
 		async def hello(ctx):
