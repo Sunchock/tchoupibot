@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import requests
 
 # Scraper to get the machines stats from the Laverie website
-class laundryScaper(ABC):
+class laundryScraper(ABC):
 	# default url
 	url: str = 'https://www.proxiwash.com/weblaverie/component/weblaverie/?view=instancesfiche&format=raw&s=444ec2'
 

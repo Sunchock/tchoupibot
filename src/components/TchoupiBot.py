@@ -12,7 +12,7 @@ class TchoupiBot(commands.Bot):
 
 		@self.command(name='laverie')
 		async def laverie(ctx):
-			scraper = laundryScraper()
+			scraper = laundryScraper.scrape()
 			content = "Machines de la laverie en direct:\n"
 			for machine in scraper:
 				content += f"{machine['type']} \tn° **{machine['id']}**,\tEtat: **{machine['state']}**"
