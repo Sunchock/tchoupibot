@@ -11,7 +11,7 @@ class laundryScraper(ABC):
 
 	# Get data from url and return a BeautifulSoup object
 	@abstractmethod
-	def __get_data_soup__(self, url: str='') -> BeautifulSoup | None:
+	def __scrape_content_from_url__(self, url: str='') -> BeautifulSoup | None:
 		# If url is empty, use the default url
 		if not url:
 			url = self.url
@@ -22,12 +22,12 @@ class laundryScraper(ABC):
 			return BeautifulSoup(response.content.decode('utf-8'), 'html.parser')
 		return None
 
-	# Feed the machines list from data
+	# Feed the machines list from BeautifulSoup's data
 	@abstractmethod
-	def __feed_machines_list__(self, data_soup: BeautifulSoup) -> list(map(str, str)) | None:
+	def __parse_machines_list_from_data_soup__(self, data_soup: BeautifulSoup) -> list(map(str, str)) | None:
 		machines_list: list(map(str, str)) = []
 		# Pointer to the machine to be processed
-		row_ptr = data_soup.table.tr.next_sibling
+		row_ptr = data_soup.table.tr.next_sibling # erreur si data_soup est vide
 		# Loop through all the machines
 		while row_ptr is not None:
 			current_machine = {}
@@ -49,8 +49,8 @@ class laundryScraper(ABC):
 	@abstractmethod
 	def scrape(self, url: str='') -> list(map(str, str)) | None:
 		# Get the data from the url
-		data_soup: BeautifulSoup = self.__get_data_soup__(url)
-		# If the data is not empty, feed the machines list and return it
-		if data_soup:
-			return self.__feed_machines_list__(data_soup)
+		data_soup: BeautifulSoup = self.__scrape_content_from_url__(url)
+		# If the data is not None, feed the machines list and return it
+		if data_soup is not None:
+			return self.__parse_machines_list_from_data_soup__(data_soup)
 		return None

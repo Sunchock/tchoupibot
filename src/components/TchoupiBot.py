@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 import discord
 from discord.ext import commands
 from components.laundryScraper import laundryScraper
@@ -10,17 +9,27 @@ class TchoupiBot(commands.Bot):
 		default_intents.members = True 
 		super().__init__(command_prefix="!", intents=default_intents)
 
+		# Custom command to print laundry machines infos
 		@self.command(name='laverie')
 		async def laverie(ctx):
-			scraper = laundryScraper.scrape()
-			content = "Machines de la laverie en direct:\n"
-			for machine in scraper:
-				content += f"{machine['type']} \tn° **{machine['id']}**,\tEtat: **{machine['state']}**"
-				if not machine['state']:
-					content += f", Disponible dès : {machine['end_time']}"
-				content += "\n"
-			print(scraper)
-			await ctx.send(content)
+			# Get the machines infos
+			machines_list: list(map(str, str)) = laundryScraper.scrape()
+			# partie suggérée par Co-pilot, à tester !!
+			if machines_list:
+				# Build the embed message
+				embed_message = discord.Embed(title="Machines de laverie", color=0x00ff00)
+				for machine in machines_list:
+					embed_message.add_field(name=f"Machine {machine['id']}", value=f"Type: {machine['type']}\nEtat: {machine['state']}\nDébut: {machine['start_time']}\nFin: {machine['end_time']}", inline=False)
+				# Send the message
+				await ctx.send(embed=embed_message)
+
+			# content = "Machines de la laverie en direct:\n"
+			# for machine in machines_list:
+			# 	content += f"{machine['type']} \tn° **{machine['id']}**,\tEtat: **{machine['state']}**"
+			# 	if not machine['state']:
+			# 		content += f", Disponible dès : {machine['end_time']}"
+			# 	content += "\n"
+			# await ctx.send(content)
 		
 		@self.command(name="hello")
 		async def hello(ctx):
