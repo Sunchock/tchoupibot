@@ -2,7 +2,7 @@
 
 import discord
 from discord.ext import commands
-from components.laverieScraper import laverieScraper
+from components.laundryScraper import laundryScraper
 
 class TchoupiBot(commands.Bot):
 	def __init__(self):
@@ -12,7 +12,7 @@ class TchoupiBot(commands.Bot):
 
 		@self.command(name='laverie')
 		async def laverie(ctx):
-			scraper = laverieScraper().getMachines()
+			scraper = laundryScraper()
 			content = "Machines de la laverie en direct:\n"
 			for machine in scraper:
 				content += f"{machine['type']} \tn° **{machine['id']}**,\tEtat: **{machine['state']}**"

@@ -6,5 +6,5 @@ from components.TchoupiBot import TchoupiBot
 
 load_dotenv()
 
-tchoupi_bot = TchoupiBot()
-tchoupi_bot.run(os.getenv("TOKEN"))
+tchoupi = TchoupiBot()
+tchoupi.run(os.getenv("TOKEN"))
