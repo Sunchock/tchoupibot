@@ -13,7 +13,7 @@ class TchoupiBot(commands.Bot):
 		@self.command(name='laverie')
 		async def laverie(ctx):
 			# Get the machines infos
-			machines_list: list(map(str, str)) = laundryScraper.scrape()
+			machines_list: list[dict[str, str]] = laundryScraper.scrape()
 			# partie suggérée par Co-pilot, à tester !!
 			if machines_list:
 				# Build the embed message

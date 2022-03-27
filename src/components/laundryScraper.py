@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 from abc import ABC, abstractmethod
-from tkinter.messagebox import NO
 from bs4 import BeautifulSoup
 import requests
 
@@ -10,7 +9,7 @@ class laundryScraper(ABC):
 	url: str = 'https://www.proxiwash.com/weblaverie/component/weblaverie/?view=instancesfiche&format=raw&s=444ec2'
 
 	# Get data from url and return a BeautifulSoup object
-	@abstractmethod
+	@classmethod
 	def __scrape_content_from_url__(self, url: str='') -> BeautifulSoup | None:
 		# If url is empty, use the default url
 		if not url:
@@ -23,14 +22,14 @@ class laundryScraper(ABC):
 		return None
 
 	# Feed the machines list from BeautifulSoup's data
-	@abstractmethod
-	def __parse_machines_list_from_data_soup__(self, data_soup: BeautifulSoup) -> list(map(str, str)) | None:
-		machines_list: list(map(str, str)) = []
+	@classmethod
+	def __parse_machines_list_from_data_soup__(self, data_soup: BeautifulSoup) -> list[dict[str, str]] | None:
+		machines_list: list = []
 		# Pointer to the machine to be processed
 		row_ptr = data_soup.table.tr.next_sibling # erreur si data_soup est vide
 		# Loop through all the machines
 		while row_ptr is not None:
-			current_machine = {}
+			current_machine: dict[str, str] = {}
 			current_machine['id'] = int(row_ptr.td.next_sibling.text[-1])
 			current_machine['type'] = row_ptr.td.get_text(strip=True)
 			current_machine['start_time'] = row_ptr.td.next_sibling.next_sibling.next_sibling.next_sibling.get_text(strip=True)
@@ -46,8 +45,8 @@ class laundryScraper(ABC):
 		return None
 
 	# Callable method, returns the latest infos about the laundry machines
-	@abstractmethod
-	def scrape(self, url: str='') -> list(map(str, str)) | None:
+	@classmethod
+	def scrape(self, url: str='') -> list[dict[str, str]] | None:
 		# Get the data from the url
 		data_soup: BeautifulSoup = self.__scrape_content_from_url__(url)
 		# If the data is not None, feed the machines list and return it
