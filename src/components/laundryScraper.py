@@ -23,7 +23,7 @@ class laundryScraper(ABC):
 
 	# Feed the machines list from BeautifulSoup's data
 	@classmethod
-	def __parse_machines_list_from_data_soup__(self, data_soup: BeautifulSoup) -> list[dict[str, str]] | None:
+	def __parse_machines_list_from_data_soup__(self, data_soup: BeautifulSoup):
 		machines_list: list = []
 		# Pointer to the machine to be processed
 		row_ptr = data_soup.table.tr.next_sibling # erreur si data_soup est vide
@@ -46,7 +46,7 @@ class laundryScraper(ABC):
 
 	# Callable method, returns the latest infos about the laundry machines
 	@classmethod
-	def scrape(self, url: str='') -> list[dict[str, str]] | None:
+	def scrape(self, url: str=''):
 		# Get the data from the url
 		data_soup: BeautifulSoup = self.__scrape_content_from_url__(url)
 		# If the data is not None, feed the machines list and return it
