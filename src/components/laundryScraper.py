@@ -10,7 +10,7 @@ class laundryScraper(ABC):
 
 	# Get data from url and return a BeautifulSoup object
 	@classmethod
-	def __scrape_content_from_url__(self, url: str='') -> BeautifulSoup | None:
+	def __scrape_content_from_url__(self, url: str=''):
 		# If url is empty, use the default url
 		if not url:
 			url = self.url
