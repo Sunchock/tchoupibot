@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-from email.policy import default
 import discord
 from discord.ext import commands
 from components.laundryScraper import laundryScraper
@@ -13,37 +12,30 @@ class TchoupiBot(commands.Bot):
 		# Custom command to print laundry machines infos
 		@self.command(name='laverie')
 		async def laverie(ctx):
-			# Get the machines infos
 			machines_list: list[dict[str, str]] = laundryScraper.scrape()
-			# partie suggérée par Co-pilot, à tester !!
 			if machines_list:
 				# Build the embed message
 				embed_message = discord.Embed(title="Machines de la laverie | Bâtiment 2", color=0x00ff00)
 				for machine in machines_list:
-					machine_value: str = None
-					machine_name: str = f"Machine {machine['id']}"
-					match machine['state']:
-						case 'DISPONIBLE':
-							machine_name += " :white_check_mark:"
-							machine_value = f"{machine['type']}, {machine['state']}"
-						case '':
-							machine_name += " :clock2:"
-							machine_value = f"{machine['type']}, Fin à {machine['end_time']}."
-						case _:
-							machine_name += " :x:"
-							machine_value = f"{machine['type']}, Désactivée"
-					#embed_message.add_field(name=f"Machine {machine['id']}", value=f"Type: {machine['type']}\nEtat: {machine['state']}\nDébut: {machine['start_time']}\nFin: {machine['end_time']}", inline=False)
+					# Build embed entry
+					machine_name: str = f"Machine {machine['id']} "
+					machine_value: str = f"{machine['type']}, "
+					# Check for current machine state
+					if machine['state'] == 'DISPONIBLE':
+						machine_name += ":white_check_mark:"
+						machine_value += f"{machine['state']}"
+					elif machine['state'] == '':
+						machine_name += " :clock2:"
+						machine_value += f"Fin à {machine['end_time']}."
+					else:
+						machine_name += " :x:"
+						machine_value = f"{machine['type']}, Désactivée"
+					# Add the entry to the embed message
 					embed_message.add_field(name=machine_name, value=machine_value, inline=False)
 				# Send the message
 				await ctx.send(embed=embed_message)
-
-			# content = "Machines de la laverie en direct:\n"
-			# for machine in machines_list:
-			# 	content += f"{machine['type']} \tn° **{machine['id']}**,\tEtat: **{machine['state']}**"
-			# 	if not machine['state']:
-			# 		content += f", Disponible dès : {machine['end_time']}"
-			# 	content += "\n"
-			# await ctx.send(content)
+			else:
+				print('error: Unable to get machines list')
 		
 		@self.command(name="hello")
 		async def hello(ctx):
