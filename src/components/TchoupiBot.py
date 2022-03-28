@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from email.policy import default
 import discord
 from discord.ext import commands
 from components.laundryScraper import laundryScraper
@@ -17,9 +18,22 @@ class TchoupiBot(commands.Bot):
 			# partie suggérée par Co-pilot, à tester !!
 			if machines_list:
 				# Build the embed message
-				embed_message = discord.Embed(title="Machines de laverie", color=0x00ff00)
+				embed_message = discord.Embed(title="Machines de la laverie | Bâtiment 2", color=0x00ff00)
 				for machine in machines_list:
-					embed_message.add_field(name=f"Machine {machine['id']}", value=f"Type: {machine['type']}\nEtat: {machine['state']}\nDébut: {machine['start_time']}\nFin: {machine['end_time']}", inline=False)
+					machine_value: str = None
+					machine_name: str = f"Machine {machine['id']}"
+					match machine['state']:
+						case 'DISPONIBLE':
+							machine_name += " :white_check_mark:"
+							machine_value = f"{machine['type']}, {machine['state']}"
+						case '':
+							machine_name += " :clock2:"
+							machine_value = f"{machine['type']}, Fin à {machine['end_time']}."
+						case _:
+							machine_name += " :x:"
+							machine_value = f"{machine['type']}, Désactivée"
+					#embed_message.add_field(name=f"Machine {machine['id']}", value=f"Type: {machine['type']}\nEtat: {machine['state']}\nDébut: {machine['start_time']}\nFin: {machine['end_time']}", inline=False)
+					embed_message.add_field(name=machine_name, value=machine_value, inline=False)
 				# Send the message
 				await ctx.send(embed=embed_message)
 
