@@ -1,0 +1,4 @@
+---
+deployment:
+  tasks:
+    - python src/main.py
