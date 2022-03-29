@@ -24,11 +24,14 @@ class TchoupiBot(commands.Bot):
 					if machine['state'] == 'DISPONIBLE':
 						machine_name += ":white_check_mark:"
 						machine_value += f"{machine['state']}"
+					elif machine['state'] == 'TERMINE':
+						machine_name += ":ok:"
+						machine_value += "TERMINÉE"
 					elif machine['state'] == '':
-						machine_name += " :clock2:"
+						machine_name += ":clock2:"
 						machine_value += f"Fin à {machine['end_time']}."
 					else:
-						machine_name += " :x:"
+						machine_name += ":x:"
 						machine_value = f"{machine['type']}, Désactivée"
 					# Add the entry to the embed message
 					embed_message.add_field(name=machine_name, value=machine_value, inline=False)
