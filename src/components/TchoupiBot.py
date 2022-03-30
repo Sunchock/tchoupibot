@@ -13,6 +13,7 @@ class TchoupiBot(commands.Bot):
 		@self.command(name='laverie')
 		async def laverie(ctx):
 			machines_list: list[dict[str, str]] = laundryScraper.scrape()
+			print(machines_list)
 			if machines_list:
 				# Build the embed message
 				embed_message = discord.Embed(title="Machines de la laverie | Bâtiment 2", color=0x00ff00)
@@ -29,7 +30,10 @@ class TchoupiBot(commands.Bot):
 						machine_value += "TERMINÉE"
 					elif machine['state'] == '':
 						machine_name += ":clock2:"
-						machine_value += f"Fin à {machine['end_time']}."
+						if machine['end_time'] == '-':
+							machine_value += "EN COURS"
+						else:
+							machine_value += f"Fin à {machine['end_time']}."
 					else:
 						machine_name += ":x:"
 						machine_value = f"{machine['type']}, Désactivée"
