@@ -19,7 +19,7 @@ def __start():
 def application(environ, start_response):
 	start_response('200 OK', [('Content-type', 'text/plain')])
 	__start()
-	yield 'Hello World\n'
+	yield b'Hello World\n'
 
 # Entry point
 if __name__ == "__main__":
