@@ -18,7 +18,6 @@ def __start():
 
 def application(environ, start_response):
 	start_response('200 OK', [('Content-type', 'text/plain')])
-	__start()
 	yield b'Hello World\n'
 
 # Entry point
