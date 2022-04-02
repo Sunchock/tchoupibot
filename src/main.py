@@ -17,11 +17,9 @@ def __start():
 		exit(1)
 
 def application(environ, start_response):
-	status = '200 OK'
-	headers = [('Content-type', 'text/plain')]
-	start_response(status, headers)
+	start_response('200 OK', [('Content-type', 'text/plain')])
 	__start()
-	return [b'Hello World']
+	yield 'Hello World\n'
 
 # Entry point
 if __name__ == "__main__":
