@@ -1,10 +1,11 @@
 #!/usr/bin/python3
-
-import os
+from core import TchoupiCore
 from dotenv import load_dotenv
-from components.TchoupiBot import TchoupiBot
 
+# Load .env file
 load_dotenv()
 
-tchoupi = TchoupiBot()
-tchoupi.run(os.getenv("TOKEN"))
+# Entry point
+if __name__ == "__main__":
+	tchoupi = TchoupiCore()
+	tchoupi.run()

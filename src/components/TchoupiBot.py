@@ -2,9 +2,15 @@
 import discord
 from discord.ext import commands
 from components.laundryScraper import laundryScraper
+from multiprocessing import Queue
 
+# Implement the discord integration
 class TchoupiBot(commands.Bot):
-	def __init__(self):
+	__bot_queue: Queue = None
+
+	def __init__(self, queue):
+		self.__bot_queue = queue
+
 		default_intents = discord.Intents.default()
 		default_intents.members = True 
 		super().__init__(command_prefix="!", intents=default_intents)
@@ -65,10 +71,5 @@ class TchoupiBot(commands.Bot):
 				En poursuivant ta navigation sur ce serveur, tu reconnais avoir pris connaissance et approuvé les règles énnoncées ci-dessus.""")
 
 	async def on_ready(self):
-		print(f"{self.user.display_name} est connecté au serveur.")
-
-	# # To test
-	# async def on_member_join(self, member):
-	# 	general_chanel: discord.TextChannel = self.get_channel(697409297537171531)
-	# 	await general_chanel.send(content=f"Bienvenue sur le serveur {member.display_name}")
-	# 	print(f"{member.display_name} a rejoint le serveur !")
+		print(f"{self.user.display_name} is connected to Discord")
+		self.__bot_queue.put("connected")
