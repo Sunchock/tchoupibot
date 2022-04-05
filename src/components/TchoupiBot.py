@@ -7,10 +7,10 @@ from multiprocessing import Queue
 # Implement the discord integration
 class TchoupiBot(commands.Bot):
 	__bot_queue: Queue = None
+	__laverie_enabled: bool = True
 
 	def __init__(self, queue):
 		self.__bot_queue = queue
-
 		default_intents = discord.Intents.default()
 		default_intents.members = True 
 		super().__init__(command_prefix="!", intents=default_intents)
@@ -18,11 +18,16 @@ class TchoupiBot(commands.Bot):
 		# Custom command to print laundry machines infos
 		@self.command(name='laverie')
 		async def laverie(ctx):
+			# Initialize the embed message
+			embed_message = discord.Embed(title="Machines de la laverie | Bâtiment 2", color=0x00ff00)
+			if not self.__laverie_enabled:
+				embed_message.add_field(name="Laverie", value="La laverie est actuellement fermée. :x:")
+				await ctx.send(embed=embed_message)
+				return
 			machines_list: list[dict[str, str]] = laundryScraper.scrape()
 			print(machines_list)
 			if machines_list:
 				# Build the embed message
-				embed_message = discord.Embed(title="Machines de la laverie | Bâtiment 2", color=0x00ff00)
 				for machine in machines_list:
 					# Build embed entry
 					machine_name: str = f"Machine {machine['id']} "
@@ -49,6 +54,12 @@ class TchoupiBot(commands.Bot):
 				await ctx.send(embed=embed_message)
 			else:
 				print('error: Unable to get machines list')
+
+		@self.command(name="set_laverie")
+		@commands.check_any(commands.has_role(705756751139700779), commands.has_role(853388371372408842))
+		async def set_laverie_state(ctx, state: str):
+			self.__laverie_enabled = state.lower() in ("yes", "true", "1", "on")
+			await ctx.send(f"Laverie is now {'enabled' if self.__laverie_enabled else 'disabled'}")
 		
 		@self.command(name="hello")
 		async def hello(ctx):
