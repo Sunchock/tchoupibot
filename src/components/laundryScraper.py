@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from abc import ABC, abstractmethod
+from abc import ABC
 from bs4 import BeautifulSoup
 import requests
 

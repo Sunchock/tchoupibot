@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import logging
-from multiprocessing.connection import wait
 import os
 import traceback
 from components.TchoupiBot import TchoupiBot
@@ -12,23 +11,35 @@ class TchoupiCore:
 	__bot_queue: Queue = None
 	__discord_bot: TchoupiBot = None
 
+
+	# Init the core
 	def __init__(self) -> None:
+		# Queue for inter-process communication
 		self.__bot_queue = Queue()
 
+	"""
+	
+	"""
 	# Get user input for custom commands (help, exit, ...)
 	def get_user_input(self):
+		# Get user input
 		user_input: str = input("TchoupiBot> ")
+		# Exit and free the bot process
 		if user_input == "exit":
 			print("TchoupiBot is shutting down...")
 			if self.__discord_bot:
 				self.__discord_bot.close()
 			self.__bot_process.terminate()
 			exit()
+		# Print help
 		elif user_input == "help":
 			print("""help : Show this help message\nexit : Exit the bot""")
+		# Unable to understand the user input
 		else:
 			print("Unknown command. Use help for more informations.")
+		# Recursive call
 		self.get_user_input()
+
 
 	# Start the discord bot
 	def __start_bot__(self):
@@ -37,6 +48,7 @@ class TchoupiCore:
 			self.__discord_bot.run(os.getenv("TOKEN"))
 		except Exception:
 			logging.error(traceback.format_exc())
+
 
 	# Start the core
 	def run(self):
