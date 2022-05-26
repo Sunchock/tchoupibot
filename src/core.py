@@ -45,7 +45,7 @@ class TchoupiCore:
 	def __start_bot__(self):
 		try:
 			self.__discord_bot = TchoupiBot(self.__bot_queue)
-			self.__discord_bot.run(os.getenv("TOKEN"))
+			self.__discord_bot.run(os.getenv("DISCORD_API_TOKEN"))
 		except Exception:
 			logging.error(traceback.format_exc())
 
