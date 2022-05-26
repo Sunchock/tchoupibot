@@ -8,3 +8,4 @@
 ## How to install dependencies
 pip install python-dotenv
 pip install discord.py
+# Waiting for discord.py v2.0

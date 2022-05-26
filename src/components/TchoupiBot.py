@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+from time import time
 import discord
 from discord.ext import commands
 from components.laundryScraper import laundryScraper
@@ -50,6 +51,8 @@ class TchoupiBot(commands.Bot):
 						machine_value = f"{machine['type']}, Désactivée"
 					# Add the entry to the embed message
 					embed_message.add_field(name=machine_name, value=machine_value, inline=False)
+					# Add timestamp
+					embed_message.set_footer(text="Dernière mise à jour : " + time.strftime("%H:%M:%S", time.localtime()))
 				# Send the message
 				await ctx.send(embed=embed_message)
 			else:
