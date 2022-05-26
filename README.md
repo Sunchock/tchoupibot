@@ -1,11 +1,8 @@
 # TchoupiBot v0.1
 ## Prerequisites:
-- python3
-- discord.py
-- python-dotenv
+sudo apt-get install python3.8 python3-venv python3-pip
+python3 -m pip install -U discord.py
+python3 -m pip install -U python-dotenv
+python3 -m pip install -U bs4
+python3 -m pip install -U requests
 ## WORK IN PROGRESS
-
-## How to install dependencies
-pip install python-dotenv
-pip install discord.py
-# Waiting for discord.py v2.0
