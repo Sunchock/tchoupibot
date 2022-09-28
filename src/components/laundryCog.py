@@ -30,6 +30,10 @@ class laundryCog(commands.Cog):
 	# Custom command to print laundry machines infos
 	@commands.command(name='laverie')
 	async def get_laundry_embed(self, ctx):
+		### DEBUG ###
+		test_channel = self.bot.get_channel(981822457046515712)
+		await test_channel.send("'!laverie' called")
+		### DEBUG ###
 		embed_laundry: discord.Embed = await self.laverie()
 		if embed_laundry:
 			message = await ctx.send(embed=embed_laundry)

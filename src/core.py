@@ -45,6 +45,7 @@ class TchoupiCore:
 			self.__discord_bot.run(os.getenv("DISCORD_API_TOKEN"))
 		except Exception:
 			logging.error(traceback.format_exc())
+			exit(1)
 
 	# Start the core
 	def run(self):

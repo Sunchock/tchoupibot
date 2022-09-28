@@ -9,6 +9,10 @@ class TchoupiBot(commands.Bot):
 
 	# catch 'on_ready' event
 	async def on_ready(self):
+		### DEBUG ###
+		test_channel = self.get_channel(981822457046515712)
+		await test_channel.send("TchoupiBot is connected")
+		### DEBUG ###
 		print(f"{self.user.display_name} is connected to Discord")
 		self.__bot_queue.put("connected")
 
