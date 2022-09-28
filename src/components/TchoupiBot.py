@@ -18,7 +18,7 @@ class TchoupiBot(commands.Bot):
 
 	def __init__(self, queue):
 		self.__bot_queue = queue
-		default_intents = discord.Intents.default()
+		default_intents = discord.Intents.all()
 		default_intents.members = True
 		default_intents.reactions = True
 		super().__init__(command_prefix="!", intents=default_intents)
