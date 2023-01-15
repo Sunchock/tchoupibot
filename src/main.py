@@ -16,7 +16,7 @@ def __start():
 		print("Unable to start core, exit.", file=sys.stderr)
 		exit(1)
 
-def application(environ, start_response):
+def tchoupibot(environ, start_response):
 	start_response('200 OK', [('Content-type', 'text/plain')])
 	yield b'Hello World\n'
 
