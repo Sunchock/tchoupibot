@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 import logging
 import os
+import subprocess
 import sys
 import traceback
 
+# Needed by host to load other files
 sys.path.insert(0, os.path.dirname(__file__))
 
 from core import TchoupiCore
@@ -23,6 +25,15 @@ def __start():
 def tchoupibot(environ, start_response):
 	start_response('200 OK', [('Content-type', 'text/plain')])
 	yield b'Hello World\n'
+	p = subprocess.Popen(['ps', '-u', 'wmor3069'], stdout=subprocess.PIPE)
+
+	out, err = p.communicate()
+	for line in out.splitlines():
+		if 'tchoupibot.py'.encode('utf-8') in line:
+			print("Bot already running.")
+		else:
+			__start()
+			print("Bot started !")
 
 # Entry point
 if __name__ == "__main__":
