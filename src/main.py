@@ -1,7 +1,11 @@
 #!/usr/bin/python3
 import logging
+import os
 import sys
 import traceback
+
+sys.path.insert(0, os.path.dirname(__file__))
+
 from core import TchoupiCore
 from dotenv import load_dotenv
 
