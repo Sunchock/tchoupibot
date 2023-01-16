@@ -25,11 +25,11 @@ def __start():
 def tchoupibot(environ, start_response):
 	start_response('200 OK', [('Content-type', 'text/plain')])
 	yield b'Hello World\n'
-	p = subprocess.Popen(['ps', '-u', 'wmor3069'], stdout=subprocess.PIPE)
+	p = subprocess.Popen(['ps', '-ef'], stdout=subprocess.PIPE)
 
 	out, err = p.communicate()
 	for line in out.splitlines():
-		if 'tchoupibot.py'.encode('utf-8') in line:
+		if 'tchoupibot'.encode('utf-8') in line:
 			print("Bot already running.")
 		else:
 			__start()
