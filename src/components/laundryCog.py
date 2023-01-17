@@ -16,7 +16,7 @@ def get_clock_emoji_timer(start_time: str, end_time: str) -> int:
 	
 	# Conversion des arguments textes en nombres réels
 	start: str = start_time.split(':')
-	start_hour, start_min: int = int(start[0]), int(start[1])
+	start_hour, start_min = int(start[0]), int(start[1])
 	if (end_time != '-'): # Fix pour le temps de fin non présent des LAVE LINGE 6 KG
 		end = end_time.split(':')
 		end_hour, end_min = int(end[0]), int(end[1])
