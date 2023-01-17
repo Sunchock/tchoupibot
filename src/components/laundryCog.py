@@ -11,9 +11,6 @@ from components.laundryScraper import laundryScraper
 # Basé sur le pourcentage restant du temps d'une opération (max 60min)
 # get_clock_emoji_timer("08:37", "09:12") ->
 def get_clock_emoji_timer(start_time: str, end_time: str) -> int:
-	# calc = lambda x1, x2, y1, y2: (y1 - x1) * 60 - x2 + y2
-	# floor(calc("8:57", current_time="9:12") * 12 / 60)
-	
 	# Conversion des arguments textes en nombres réels
 	start: str = start_time.split(':')
 	start_hour, start_min = int(start[0]), int(start[1])
@@ -22,10 +19,13 @@ def get_clock_emoji_timer(start_time: str, end_time: str) -> int:
 		end_hour, end_min = int(end[0]), int(end[1])
 	else:
 		end_hour, end_min = int(start[0]) + 1, int(start[1])
+	# Calcul du temps total
+	total_time = abs((end_hour - start_hour) * 60 - start_min + end_min)
 	# Calcul du temps restant (max 60 minutes)
-	remaining_time = abs((end_hour - start_hour) * 60 - start_min + end_min) % 60
+	current_time = time.localtime()
+	remaining_time = abs((end_hour - current_time.tm_hour) * 60 - current_time.tm_min + end_min)
 	# Calcul du pourcentage
-	return floor(remaining_time * 12 / 60) or 1
+	return 12 - floor(remaining_time * 12 / total_time) or 1
 
 class laundryCog(commands.Cog):
 	__laverie_enabled: bool = True
@@ -86,13 +86,13 @@ class laundryCog(commands.Cog):
 				match machine['state']:
 					case 'DISPONIBLE':
 						machine_name += ":white_check_mark:"
-						machine_state += "DISPONIBLE"
+						machine_state += "Disponible"
 					case 'TERMINE':
 						machine_name += ":ok:"
-						machine_state += "TERMINÉE"
+						machine_state += "Terminée"
 					case '':
 						machine_name += f":clock{str(get_clock_emoji_timer(machine['start_time'], machine['end_time']))}:"
-						machine_state += f"EN COURS, {machine['start_time']} => {machine['end_time']}."
+						machine_state += f"En cours | {machine['start_time']} -> {'?' if machine['end_time'] == '-' else {machine['end_time']}}"
 					case _:
 						machine_name += ":x:"
 						machine_state += "Désactivée"
