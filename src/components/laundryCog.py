@@ -15,13 +15,13 @@ def get_clock_emoji_timer(start_time: str, end_time: str) -> int:
 	# floor(calc("8:57", current_time="9:12") * 12 / 60)
 	
 	# Conversion des arguments textes en nombres réels
-	start = start_time.split(':')
-	start_hour, start_min = start[0], start[1]
+	start: str = start_time.split(':')
+	start_hour, start_min: int = int(start[0]), int(start[1])
 	if (end_time != '-'): # Fix pour le temps de fin non présent des LAVE LINGE 6 KG
 		end = end_time.split(':')
-		end_hour, end_min = end[0], end[1]
+		end_hour, end_min = int(end[0]), int(end[1])
 	else:
-		end_hour, end_min = start[0] + 1, start[1]
+		end_hour, end_min = int(start[0]) + 1, int(start[1])
 	# Calcul du temps restant (max 60 minutes)
 	remaining_time = abs((end_hour - start_hour) * 60 - start_min + end_min) % 60
 	# Calcul du pourcentage
@@ -91,7 +91,7 @@ class laundryCog(commands.Cog):
 						machine_name += ":ok:"
 						machine_state += "TERMINÉE"
 					case '':
-						machine_name += f":clock{get_clock_emoji_timer(machine['start_time'], machine['end_time'])}:"
+						machine_name += f":clock{str(get_clock_emoji_timer(machine['start_time'], machine['end_time']))}:"
 						machine_state += f"EN COURS, {machine['start_time']} => {machine['end_time']}."
 					case _:
 						machine_name += ":x:"
