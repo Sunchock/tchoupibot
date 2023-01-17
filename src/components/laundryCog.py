@@ -92,7 +92,7 @@ class laundryCog(commands.Cog):
 						machine_state += "Terminée"
 					case '':
 						machine_name += f":clock{str(get_clock_emoji_timer(machine['start_time'], machine['end_time']))}:"
-						machine_state += f"En cours | {machine['start_time']} -> {'?' if machine['end_time'] == '-' else {machine['end_time']}}"
+						machine_state += f"En cours | {machine['start_time']} -> {'?' if machine['end_time'] == '-' else machine['end_time']}"
 					case _:
 						machine_name += ":x:"
 						machine_state += "Désactivée"
