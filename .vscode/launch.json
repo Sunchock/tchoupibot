@@ -16,7 +16,7 @@
 			"name": "Python : Project actuel",
 			"type": "python",
 			"request": "launch",
-			"program": "${workspaceFolder}/src/main.py",
+			"program": "${workspaceFolder}/src/tchoupibot.py",
 			"console": "integratedTerminal",
 			"justMyCode": true
 		}
