@@ -25,17 +25,17 @@ def __start():
 def tchoupibot(environ, start_response):
 	start_response('200 OK', [('Content-type', 'text/plain')])
 	yield b'Hello World\n'
-	p = subprocess.Popen(['ps', '-ef'], stdout=subprocess.PIPE)
-
-	out, err = p.communicate()
-	for line in out.splitlines():
-		if 'tchoupibot'.encode('utf-8') in line:
-			print("Bot already running.")
-		else:
-			__start()
-			print("Bot started !")
 
 # Entry point
 if __name__ == "__main__":
-	__start()
+	pgrep_proc = subprocess.Popen(['pgrep -f .*tchoupibot.*'], shell=True, stdout=subprocess.PIPE)
+	processes: list[bytes] = pgrep_proc.communicate("")[0].splitlines()
+
+	processes.remove(str(os.getpid()).encode())
+	processes.remove(str(pgrep_proc.pid).encode())
+	if processes:
+		print("Bot already running.")
+	else:
+		print("Starting bot ...")
+		__start()
 	exit(0)
