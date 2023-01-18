@@ -20,7 +20,7 @@ def __start():
 		exit(0)
 	except Exception:
 		logging.error(traceback.format_exc())
-		print("Error: unable to start core", file=sys.stderr)
+		#print("Error: unable to start core", file=sys.stderr)
 		exit(1)
 
 def tchoupibot(environ, start_response):
