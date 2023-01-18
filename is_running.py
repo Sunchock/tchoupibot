@@ -15,7 +15,7 @@ if __name__ == "__main__":
 	print(processes, current_pid) # DEBUG
 	if processes:
 		print("Bot already running.")
-		exit()
+		exit(1)
 	else:
 		print("Starting bot ...")
 	exit(0)
