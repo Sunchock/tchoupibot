@@ -31,9 +31,14 @@ if __name__ == "__main__":
 	pgrep_proc = subprocess.Popen(['pgrep -af .*tchoupibot.py'], shell=True, stdout=subprocess.PIPE)
 	processes: list[bytes] = pgrep_proc.communicate("")[0].splitlines()
 
-	print(processes, os.getpid(), pgrep_proc.pid) # DEBUG
-	processes.remove(str(os.getpid()).encode())
-	processes.remove(str(pgrep_proc.pid).encode())
+	current_pid = str(os.getpid()).encode()
+	pgrep_pid = str(pgrep_proc.pid).encode()
+
+	print(processes, current_pid, pgrep_pid) # DEBUG
+	if current_pid in processes:
+		processes.remove(current_pid)
+	if pgrep_pid in processes:
+		processes.remove(pgrep_pid)
 	if processes:
 		print("Bot already running.")
 	else:
