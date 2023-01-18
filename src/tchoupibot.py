@@ -37,8 +37,7 @@ if __name__ == "__main__":
 	print(processes, current_pid, pgrep_pid) # DEBUG
 	if current_pid in processes:
 		processes.remove(current_pid)
-	if pgrep_pid in processes:
-		processes.remove(pgrep_pid)
+	print(processes, current_pid, pgrep_pid) # DEBUG
 	if processes:
 		print("Bot already running.")
 	else:
