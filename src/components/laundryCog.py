@@ -23,7 +23,7 @@ def get_clock_emoji_timer(start_time: str, end_time: str) -> int:
 	total_time = abs((end_hour - start_hour) * 60 - start_min + end_min)
 	# Calcul du temps restant (max 60 minutes)
 	current_time = time.localtime()
-	remaining_time = abs((end_hour - current_time.tm_hour) * 60 - current_time.tm_min + end_min)
+	remaining_time = abs((end_hour - current_time.tm_hour) * 60 - current_time.tm_min + end_min) % 60
 	# Calcul du pourcentage
 	return 12 - floor(remaining_time * 12 / total_time) or 1
 
