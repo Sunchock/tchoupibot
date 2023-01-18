@@ -28,7 +28,7 @@ def tchoupibot(environ, start_response):
 
 # Entry point
 if __name__ == "__main__":
-	pgrep_proc = subprocess.Popen(['pgrep -af .*tchoupibot.py'], shell=True, stdout=subprocess.PIPE)
+	pgrep_proc = subprocess.Popen(['pgrep -f .*tchoupibot.py'], shell=True, stdout=subprocess.PIPE)
 	processes: list[bytes] = pgrep_proc.communicate("")[0].splitlines()
 
 	current_pid = str(os.getpid()).encode()
