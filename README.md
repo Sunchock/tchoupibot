@@ -15,4 +15,4 @@ python3 -m pip install -U requests
 ## WORK IN PROGRESS
 
 Pour lancer le bot :
-python src/startbot.py
+python startbot.py
