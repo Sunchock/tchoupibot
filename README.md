@@ -18,4 +18,4 @@ Pour lancer le bot :
 python src/tchoupibot.py
 
 Pour tester si le bot est déjà actif :
-pgrep -f .*tchoupibot.py || python src/tchoupibot.py
+pgrep -f .*tchoupibot.py || python src/startbot.py
