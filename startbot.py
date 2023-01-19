@@ -8,6 +8,7 @@ processes: list[bytes] = pgrep_proc.communicate("")[0].splitlines()
 current_pid = str(os.getpid()).encode()
 if current_pid in processes:
 	processes.remove(current_pid)
+print("DEBUG", processes)
 if processes:
 	print("Bot already running.")
 	exit(1)
