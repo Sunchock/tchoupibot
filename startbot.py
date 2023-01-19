@@ -12,5 +12,6 @@ print("DEBUG", processes)
 if processes:
 	print("Bot already running.")
 	exit(1)
+subprocess.run("pwd")
 subprocess.run("python src/tchoupibot.py")
 exit(0)
