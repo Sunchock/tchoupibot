@@ -66,7 +66,7 @@ class laundryCog(commands.Cog):
 
 	async def laverie(self) -> discord.Embed:
 		# Initialize the embed message
-		embed_message: discord.Embed = discord.Embed(title="Laverie Proxiwash | Bâtiment 2", color=0x00ff00)
+		embed_message: discord.Embed = discord.Embed(title="Laverie Proxiwash | Bâtiment 7", color=0x00ff00)
 		embed_message.description = "Horaires d'ouverture: 7h - 23h"
 		embed_message.url = "https://www.proxiwash.com/weblaverie/index.php/ma-laverie-2?s=444ec2&5376c3d89e9a678824fb1b6661d35851=1"
 		# Laverie fermée (en dehors des horaires) ou si la commande 'laverie' est désactivée
